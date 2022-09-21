@@ -1,6 +1,5 @@
 public class Polynomial{
 	double [] coefficient;
-	// what is the size of the array?
 
 	public Polynomial() {
 		coefficient = new double[100];
@@ -8,7 +7,7 @@ public class Polynomial{
 			coefficient[i] = 0;
 		}
 	}
-	// will the entire array = [0] or [0,0,..]?
+	//  the entire array = [0,0,..]
 
 	public Polynomial(double [] a) {
 		coefficient = new double[100];
@@ -23,8 +22,8 @@ public class Polynomial{
 			coefficient[i] = p.coefficient[i] + coefficient[i];
 		}
 		return this;
-		// can i do this?
 	}
+	
 	public double evaluate(double d){
 		double result = coefficient[0];
 		for (int i=1; i<coefficient.length; i++) {
@@ -41,5 +40,4 @@ public class Polynomial{
 		else
 			return false; 
 	}
-	// is this a correct way of using bools
 }
