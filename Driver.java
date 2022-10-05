@@ -1,7 +1,9 @@
+import java.io.*;
+
 public class Driver { 
 	public static void main(String [] args) { 
 		double [] c1 = {3,1,4};
-        int [] e1 = {1,0,3};
+        int [] e1 = {1,1,3};
         Polynomial p1 = new Polynomial(c1,e1);
         double [] c2 = {5,6,7,4,2};
         int [] e2 = {4,1,7,5,6};
@@ -20,7 +22,7 @@ public class Driver {
             System.out.println("result array exponent = " + result.exponents[i]);
             System.out.println("result array coeff = " + result.non_zero[i]);
 
-          
+        }  
 
 		System.out.println("p1(0.1) = " + p1.evaluate(0.1)); 
 
@@ -28,9 +30,9 @@ public class Driver {
 			System.out.println("1 is a root of p1"); 
 		else 
 			System.out.println("1 is not a root of p1"); 
-		 } 
-		double [] c3 = {1,4};
-	    int [] e3 = {0,3};
+		 
+		double [] c3 = {1,5};
+	    int [] e3 = {0,9};
 	    Polynomial p3 = new Polynomial (c3,e3);
 	    double [] c4 = {6,5,7};
 	    int [] e4 = {1,4,7};
@@ -42,6 +44,14 @@ public class Driver {
 	        System.out.println("result array coeff = " + sum.non_zero[i]);
 	}
 	    p1.saveToFile("POPO.txt");
+	    File file = new File("/Users/Arina/Documents/GitHub/b07lab1/POPO.txt");
+	    Polynomial test = new Polynomial(file);
+	    for(int i = 0; i < test.exponents.length; i++) {
+	    	System.out.println("exponent = " + test.exponents[i]);
+	    	System.out.println("coeff = " + test.non_zero[i]);
+	    	}
+	    
+	    
 	}
 }
         

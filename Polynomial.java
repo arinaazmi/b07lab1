@@ -1,6 +1,5 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 
 public class Polynomial{
 	double [] non_zero;
@@ -25,20 +24,84 @@ public class Polynomial{
 		}
 	}
 	
-	public Polynomial(File file) {
+	public Polynomial(File a) {
 		try {
-			scanner reader = new FileReader (file);
+			Scanner temps = new Scanner(a);
+			String s = temps.nextLine();
 			
-			String x = "";
-			x = x.concat(reader.readLine());
+
+            String [] part = s.split("[\\-\\+]");
+           
+            double [] coef = new double [100];
+            int [] exp = new int [100];
+
+          //splitting the partial into numbers
+			String [] n_part = new String [part.length*2];
+			int k = 0;
+			int c = 0;
+			while (k < part.length * 2) {
+				String [] temp = part[c].split("x");
+				n_part[k] = temp[0];
+				n_part[k+1] = temp[1];
+				k=k+2;
+				c++;
+			}
 			
+			int aaa= 0;
+			int bbb = 1;
+			for(int i = 0; i<n_part.length; i++) {
+				//if coef
+				if(i %2 == 0) {
+					coef[i-aaa] = Double.parseDouble(n_part[i]);
+					aaa++;
+				}
+				else {
+					exp[i-bbb] =Integer.parseInt(n_part[i]);
+					bbb++;
+				}
+			}
+			int size = part.length;
+			non_zero = new double[size];
+			exponents = new int[size];
+			for(int i = 0; i<part.length; i++) {
+				non_zero[i] = coef[i];
+				exponents[i] = exp[i];
+			}
 			
-			reader.close();
+		temps.close();	
 		} catch (IOException e) {
             e.printStackTrace();
         }
     }		
 		
+	public Polynomial clean() {
+		int counter = 0;
+		// check for 0 coefficients and replace them with -1 in exponents
+		for (int i =0; i<this.non_zero.length; i++) {
+			if (this.non_zero[i]==0.0) {
+				this.exponents[i]=-1;
+				counter = counter +1;
+			}
+		}
+		//initiate a new polynomial called cleaned
+		int new_len = non_zero.length - counter;
+		double [] coef = new double[new_len];
+		int [] expo = new int[new_len];
+		
+		Polynomial cleaned = new Polynomial(coef, expo);
+		
+		int j = 0;
+		for (int i =0; i<this.non_zero.length; i++) {
+			if (this.exponents[i]!=-1) {
+				cleaned.non_zero[j]=non_zero[i];
+				cleaned.exponents[j]=exponents[i];
+				j=j+1;
+			}
+		}
+		return cleaned;
+		
+		
+	}
 	
 	public int max_expo(int [] expo) {
 		int max_1 = 0; 
@@ -87,7 +150,8 @@ public class Polynomial{
 			result.non_zero[index]= result.non_zero[index]+ p.non_zero[l]; 
 		}
 		
-		return result;
+		Polynomial f_result = result.clean();
+		return f_result;
 	}
 	
 	public double evaluate(double d){
@@ -139,7 +203,8 @@ public class Polynomial{
 				result.non_zero[index] = result.non_zero[index] + (this.non_zero[i]*p.non_zero[j]);
 			}
 		}
-		return result;
+		Polynomial f_result = result.clean();
+		return f_result;
 		
 		
 	}
